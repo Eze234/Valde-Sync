@@ -1,0 +1,4 @@
+name: Valde-Sync
+version: '1.0.1'
+main: eze.dev.valdeSync.Core
+api-version: '1.21'
