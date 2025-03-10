@@ -6,6 +6,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Random;
+import java.util.UUID;
 
 public class utils {
     public static void console(String message) {
@@ -30,9 +31,21 @@ public class utils {
         return code.toString();
     }
 
-    public static boolean getPlayer (String tag) {
+    public static boolean getPlayer(String tag) {
         Player player = Bukkit.getServer().getPlayer(tag);
 
         return player != null;
+    }
+
+    public static String getPlayerName(String tag) {
+        Player player = Bukkit.getServer().getPlayer(tag);
+
+        return player.getName();
+    }
+
+    public static UUID getPlayerUUID(String tag) {
+        Player player = Bukkit.getServer().getPlayer(tag);
+
+        return player.getUniqueId();
     }
 }

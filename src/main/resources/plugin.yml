@@ -2,3 +2,8 @@ name: Valde-Sync
 version: '1.0.1'
 main: eze.dev.valdeSync.Core
 api-version: '1.21'
+depend: [LuckPerms]
+commands:
+  sync:
+    usage: '/sync <code>'
+    description: 'Vinculas tu cuenta de Discord con la de Minecraft'

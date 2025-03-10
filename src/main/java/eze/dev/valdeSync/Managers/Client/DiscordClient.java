@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -16,9 +17,12 @@ import org.bukkit.ChatColor;
 
 import eze.dev.valdeSync.Core;
 import eze.dev.valdeSync.Utils.utils;
+import eze.dev.valdeSync.Managers.DataBase.PlayerDataManager;
+import eze.dev.valdeSync.Managers.DataBase.Schemes.Player;
 
 import java.util.EnumSet;
 import java.util.Objects;
+import java.util.UUID;
 
 import static net.dv8tion.jda.api.interactions.commands.OptionType.STRING;
 
@@ -63,13 +67,7 @@ public class DiscordClient extends ListenerAdapter {
         if (data.getName().equals("sync")) {
             String tag = data.getOption("nick").getAsString();
             String code = utils.genCode();
-
-            if (!data.getMember().getRoles().stream().anyMatch(role -> role.getId().equals(Core.getInstance().getConfig().getString("discord.sub")))) {
-                data.reply("Debés tener rol subscriptor para utilizar este comando.")
-                        .setEphemeral(true)
-                        .queue();
-                return;
-            }
+            String id = data.getUser().getId();
 
             if (!utils.getPlayer(tag)) {
                 String message = "Asegurate de que estas conectado en la network para verificar tu cuenta.";
@@ -78,6 +76,26 @@ public class DiscordClient extends ListenerAdapter {
                         .queue();
                 return;
             }
+
+            Player player = new Player(utils.getPlayerUUID(tag), utils.getPlayerName(tag), id, code, false, null);
+
+            PlayerDataManager playerDataManager = new PlayerDataManager();
+
+            if (playerDataManager.playerExists(utils.getPlayerUUID(tag))) {
+                data.reply("Esa cuenta ya esta vinculada a la NetWork")
+                        .setEphemeral(true)
+                        .queue();
+                return;
+            }
+
+            if (playerDataManager.onDiscordConnected(id)) {
+                data.reply("Ya tienes una cuenta vinculada a la NetWork")
+                        .setEphemeral(true)
+                        .queue();
+                return;
+            }
+
+            playerDataManager.savePlayer(player);
 
             EmbedBuilder embed = new EmbedBuilder()
                     .setAuthor(Core.getInstance().getConfig().getString("minecraft.name"), data.getJDA().getSelfUser().getEffectiveAvatarUrl())
@@ -99,6 +117,11 @@ public class DiscordClient extends ListenerAdapter {
             jda.shutdown();
             utils.console(utils.colorMsg(ChatColor.RED + "[Valde-Sync] El cliente de Discord fue desconectado."));
         }
+    }
+
+    public static String getDiscordUserName(String id) {
+        User user = jda.retrieveUserById(id).complete();
+        return user != null ? user.getEffectiveName() : "Valde-Sync.Discord.User";
     }
 
 }

@@ -1,2 +1,15 @@
 discord:
   token: ""
+  roles:
+    vip_presidencial: ""
+    vip_empresarial: ""
+    vip_jefe: ""
+    vip: ""
+    youtuber: ""
+    streamer: ""
+    beta: ""
+minecraft:
+  name: "Planeta Valde"
+db:
+  connection: ""
+  collection: "PlanetaValde"

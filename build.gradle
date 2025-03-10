@@ -37,6 +37,7 @@ dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21.4-R0.1-SNAPSHOT")
     implementation 'net.luckperms:api:5.4'
     implementation("net.dv8tion:JDA:5.3.0")
+    implementation 'org.mongodb:mongodb-driver-sync:4.11.1'
 }
 
 def targetJavaVersion = 21
