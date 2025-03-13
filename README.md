@@ -1,6 +1,6 @@
-[!IMPORTANT]
+> [!IMPORTANT]
 Recordá configurar el config.json
-[!WARNING]
+> [!WARNING]
 El error:
 ```fix
 [22:24:01 ERROR]: [net.dv8tion.jda.internal.requests.WebSocketClient] There was an error in the WebSocket connection. Trace: [["gateway-prd-us-east1-c-x3qx",{"micros":68105,"calls":["id_created",{"micros":924,"calls":[]},"session_lookup_time",{"micros":6296,"calls":[]},"session_lookup_finished",{"micros":17,"calls":[]},"discord-sessions-prd-1-80",{"micros":60192,"calls":["start_session",{"micros":56885,"calls":["discord-api-rpc-6bbdc985f5-xctjm",{"micros":37924,"calls":["get_user",{"micros":5379},"get_guilds",{"micros":5766},"send_scheduled_deletion_message",{"micros":8},"guild_join_requests",{"micros":1},"authorized_ip_coro",{"micros":8},"pending_payments",{"micros":1537}]}]},"starting_guild_connect",{"micros":48,"calls":[]},"presence_started",{"micros":476,"calls":[]},"guilds_started",{"micros":147,"calls":[]},"lobbies_started",{"micros":2,"calls":[]},"guilds_connect",{"micros":3,"calls":[]},"presence_connect",{"micros":2581,"calls":[]},"connect_finished",{"micros":2587,"calls":[]},"build_ready",{"micros":44,"calls":[]},"clean_ready",{"micros":1,"calls":[]},"optimize_ready",{"micros":0,"calls":[]},"split_ready",{"micros":1,"calls":[]}]}]}]]
