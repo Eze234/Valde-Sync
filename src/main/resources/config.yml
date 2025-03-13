@@ -1,5 +1,6 @@
 discord:
   token: ""
+  guild: ""
   roles:
     vip_presidencial: ""
     vip_empresarial: ""

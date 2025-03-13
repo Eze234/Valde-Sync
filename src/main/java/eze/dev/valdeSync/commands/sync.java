@@ -1,5 +1,6 @@
 package eze.dev.valdeSync.commands;
 
+import eze.dev.valdeSync.Core;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -30,12 +31,13 @@ public class sync implements CommandExecutor {
         }
 
         if (args.length < 1) {
-            sender.sendMessage(ChatColor.RED + "Debes proporcionar el código dado por el bot.");
+            sender.sendMessage(ChatColor.RED + "Debes proporcionar el código dado por el bot.\nhttps://discord.com/invite/planetavalde");
             return true;
         }
 
         PlayerDataManager playerDataManager = new PlayerDataManager();
         Player player = (Player) sender;
+        String rank = utils.getRank(player.getPlayerListName());
 
         if (playerDataManager.getSynced(player.getUniqueId())) {
             player.sendMessage(utils.colorMsg(ChatColor.RED + "Esta cuenta ya esta sincronizada con " + ChatColor.WHITE + DiscordClient.getDiscordUserName(playerDataManager.getDiscordId(player.getUniqueId()))));
@@ -48,8 +50,14 @@ public class sync implements CommandExecutor {
         }
 
         try {
-            playerDataManager.setSynced(player.getUniqueId(), "dev");
-            player.sendMessage(utils.colorMsg(ChatColor.GREEN + "La cuenta " + ChatColor.YELLOW + player.getName() + ChatColor.GREEN + " fue sincronizada con el discord de " + ChatColor.BLUE + DiscordClient.getDiscordUserName(playerDataManager.getDiscordId(player.getUniqueId()))));
+            playerDataManager.setSynced(player.getUniqueId(), rank);
+            if (rank.equals("miembro")) {
+                player.sendMessage(utils.colorMsg(ChatColor.GREEN + "La cuenta " + ChatColor.YELLOW + player.getName() + ChatColor.GREEN + " fue sincronizada con el discord de " + ChatColor.BLUE + DiscordClient.getDiscordUserName(playerDataManager.getDiscordId(player.getUniqueId()))));
+            } else {
+                player.sendMessage(utils.colorMsg(ChatColor.GREEN + "La cuenta " + ChatColor.YELLOW + player.getName() + ChatColor.GREEN + " fue sincronizada con el discord de " + ChatColor.BLUE + DiscordClient.getDiscordUserName(playerDataManager.getDiscordId(player.getUniqueId()))));
+                player.sendMessage(utils.colorMsg(ChatColor.GREEN + "Tu rango " + ChatColor.WHITE + rank + ChatColor.GREEN + " fue sincronizado con el Discord"));
+                DiscordClient.syncRank(playerDataManager.getDiscordId(player.getUniqueId()), Core.getInstance().getConfig().getString("discord.roles." + rank));
+            }
         } catch (Exception e) {
             player.sendMessage(utils.colorMsg(ChatColor.RED + "Ocurrió un error al sincronizar tu cuenta de Discord con la de Minecraft..."));
             e.printStackTrace();

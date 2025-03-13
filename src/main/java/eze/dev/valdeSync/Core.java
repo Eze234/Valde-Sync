@@ -25,6 +25,7 @@ public final class Core extends JavaPlugin {
         luckPermsProvider();
         instance = this;
         loadCommands();
+        utils.eventHandler(this);
         utils.console(utils.colorMsg(ChatColor.BLUE + "[Valde-Sync] Plugin iniciado"));
         utils.console(utils.colorMsg(ChatColor.BLUE + "[Valde-Sync] Iniciando Conexión con Discord..."));
         DiscordClient.client();

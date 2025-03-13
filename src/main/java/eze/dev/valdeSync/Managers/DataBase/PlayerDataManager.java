@@ -33,8 +33,8 @@ public class PlayerDataManager {
         collection.updateOne(eq("discordId", discordId), new Document("$set", new Document("synced", synced)));
     }
 
-    public void updateRole(String discordId, String role) {
-        collection.updateOne(eq("discordId", discordId), new Document("$set", new Document("role", role)));
+    public void updateRole(UUID uuid, String role) {
+        collection.updateOne(eq("uuid", uuid.toString()), new Document("$set", new Document("role", role)));
     }
 
     public boolean playerExists(UUID uuid) {
@@ -63,5 +63,10 @@ public class PlayerDataManager {
     public Boolean equalCode(UUID uuid, String code) {
         Document doc = collection.find(eq("uuid", uuid.toString())).first();
         return doc != null && code.equals(doc.getString("code"));
+    }
+
+    public String getRank(UUID uuid) {
+        Document doc = collection.find(eq("uuid", uuid.toString())).first();
+        return doc.getString("role");
     }
 }

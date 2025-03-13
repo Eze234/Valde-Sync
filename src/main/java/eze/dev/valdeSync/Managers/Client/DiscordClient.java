@@ -13,6 +13,10 @@ import net.dv8tion.jda.api.interactions.InteractionContextType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+
 import org.bukkit.ChatColor;
 
 import eze.dev.valdeSync.Core;
@@ -124,4 +128,65 @@ public class DiscordClient extends ListenerAdapter {
         return user != null ? user.getEffectiveName() : "Valde-Sync.Discord.User";
     }
 
+    public static void syncRank(String id, String roleId) {
+        if (jda == null) {
+            utils.console(utils.colorMsg(ChatColor.RED + "[Valde-Sync] El cliente de discord no esta iniciado."));
+            return;
+        }
+
+        if (Core.getInstance().getConfig().getString("discord.guild").isEmpty()) {
+            utils.console(utils.colorMsg(ChatColor.RED + "[Valde-Sync] El servidor de Discord esta vacío."));
+            return;
+        }
+
+        String guildId = Core.getInstance().getConfig().getString("discord.guild");
+        Guild guild = jda.getGuildById(guildId);
+
+        if (guild == null) {
+            utils.console(utils.colorMsg(ChatColor.RED + "[Valde-Sync] El servidor de Discord no esta conectado."));
+            return;
+        }
+
+        guild.retrieveMemberById(id).queue(member -> {
+            Role role = guild.getRoleById(roleId);
+
+            if (role == null) {
+                utils.console(utils.colorMsg(ChatColor.RED + "[Valde-Sync] No encontré la id de una recompensa."));
+                return;
+            }
+
+            guild.addRoleToMember(member, role).queue();
+        });
+    }
+
+    public static void removeRank(String id, String roleId) {
+        if (jda == null) {
+            utils.console(utils.colorMsg(ChatColor.RED + "[Valde-Sync] El cliente de discord no esta iniciado."));
+            return;
+        }
+
+        if (Core.getInstance().getConfig().getString("discord.guild").isEmpty()) {
+            utils.console(utils.colorMsg(ChatColor.RED + "[Valde-Sync] El servidor de Discord esta vacío."));
+            return;
+        }
+
+        String guildId = Core.getInstance().getConfig().getString("discord.guild");
+        Guild guild = jda.getGuildById(guildId);
+
+        if (guild == null) {
+            utils.console(utils.colorMsg(ChatColor.RED + "[Valde-Sync] El servidor de Discord no esta conectado."));
+            return;
+        }
+
+        guild.retrieveMemberById(id).queue(member -> {
+            Role role = guild.getRoleById(roleId);
+
+            if (role == null) {
+                utils.console(utils.colorMsg(ChatColor.RED + "[Valde-Sync] No encontré la id de una recompensa."));
+                return;
+            }
+
+            guild.removeRoleFromMember(member, role).queue();
+        });
+    }
 }
