@@ -1,5 +1,6 @@
 > [!IMPORTANT]
-Recordá configurar el config.json<br>
+> Recordá configurar el config.json<br>
+
 > [!WARNING]
 El error:
 ```fix
