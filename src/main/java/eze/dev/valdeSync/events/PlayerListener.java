@@ -29,9 +29,11 @@ public class PlayerListener implements Listener {
 
         if (!playerDataManager.getRank(player.getUniqueId()).equals(utils.getRank(player.getPlayerListName()))) {
             Bukkit.getScheduler().runTaskLater(Core.getInstance(), () -> {
-                DiscordClient.removeRank(playerDataManager.getDiscordId(player.getUniqueId()), Core.getInstance().getConfig().getString("discord.roles." + playerDataManager.getRank(player.getUniqueId())));
+                if (!Core.getInstance().getConfig().getString("discord."+ utils.getRank(player.getPlayerListName())).isEmpty()) {
+                    DiscordClient.removeRank(playerDataManager.getDiscordId(player.getUniqueId()), Core.getInstance().getConfig().getString("discord.roles." + playerDataManager.getRank(player.getUniqueId())));
+                    DiscordClient.syncRank(playerDataManager.getDiscordId(player.getUniqueId()), Core.getInstance().getConfig().getString("discord.roles." + utils.getRank(player.getPlayerListName())));
+                }
                 playerDataManager.updateRole(player.getUniqueId(), utils.getRank(player.getPlayerListName()));
-                DiscordClient.syncRank(playerDataManager.getDiscordId(player.getUniqueId()), Core.getInstance().getConfig().getString("discord.roles." + utils.getRank(player.getPlayerListName())));
             }, 23);
         }
 
