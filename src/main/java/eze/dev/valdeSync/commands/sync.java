@@ -39,6 +39,10 @@ public class sync implements CommandExecutor {
         Player player = (Player) sender;
         String rank = utils.getRank(player.getPlayerListName());
 
+
+
+        utils.console(utils.colorMsg(ChatColor.BLUE + "[Valde-Sync] ListName es: " + player.getPlayerListName() + " su rango:" + utils.getRank(player.getPlayerListName())));
+
         if (playerDataManager.getSynced(player.getUniqueId())) {
             player.sendMessage(utils.colorMsg(ChatColor.RED + "Esta cuenta ya esta sincronizada con " + ChatColor.WHITE + DiscordClient.getDiscordUserName(playerDataManager.getDiscordId(player.getUniqueId()))));
             return true;
