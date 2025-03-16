@@ -1,6 +1,8 @@
 package eze.dev.valdeSync.commands;
 
 import eze.dev.valdeSync.Core;
+import net.luckperms.api.LuckPermsProvider;
+import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -37,11 +39,12 @@ public class sync implements CommandExecutor {
 
         PlayerDataManager playerDataManager = new PlayerDataManager();
         Player player = (Player) sender;
-        String rank = utils.getRank(player.getPlayerListName());
+        User user = LuckPermsProvider.get().getPlayerAdapter(Player.class).getUser(player);
+        String rank = user.getPrimaryGroup().toLowerCase();
 
 
 
-        utils.console(utils.colorMsg(ChatColor.BLUE + "[Valde-Sync] ListName es: " + player.getPlayerListName() + " su rango:" + utils.getRank(player.getPlayerListName())));
+        utils.console("PlayerListName: " + player.getDisplayName() + " xd:" + rank);
 
         if (playerDataManager.getSynced(player.getUniqueId())) {
             player.sendMessage(utils.colorMsg(ChatColor.RED + "Esta cuenta ya esta sincronizada con " + ChatColor.WHITE + DiscordClient.getDiscordUserName(playerDataManager.getDiscordId(player.getUniqueId()))));

@@ -46,6 +46,7 @@ public final class Core extends JavaPlugin {
 
             if (provider != null) {
                 LuckPerms api = provider.getProvider();
+                utils.console(utils.colorMsg(ChatColor.BLUE + "[Valde-Sync] Plugin conectado a " + ChatColor.GREEN + "LuckPerms"));
             } else {
                 utils.console(ChatColor.RED + "[Valde-Sync] Error al conectar LuckPerms al plugin.");
             }
